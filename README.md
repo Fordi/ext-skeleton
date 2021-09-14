@@ -1,9 +1,18 @@
-Extension name
-------------------
+Chromium Extension Template
+---------------------------
 
-This Chromium extension does the thing it's programmed to do.
+This is a template repository for building a simple on-page Chromium extension.
 
-## Installation
+## Development
+
+* Click "Use this template" on github and follow the prompts to create your own repo
+* Run `npm i` to generate a `package-lock.json` and commit it
+* Run `npm run watch` to build and maintain a `manifest.json` while you work
+* Commit `manifest.json`.
+
+Note: Updates to the extension manifest should be made in the `chromiumManifest` section of `package.json`.
+
+## Basic installation
 
 * Clone this repo to your machine
 * in Chrome/Chromium, go to `chrome://extensions`

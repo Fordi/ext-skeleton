@@ -1,7 +1,8 @@
+const { resolve } = require('path');
+
 module.exports = {
   extends: [
     'airbnb',
-    'plugin:jest/recommended',
     'plugin:lit/recommended',
   ],
   env: {
@@ -9,7 +10,6 @@ module.exports = {
     node: true,
   },
   plugins: [
-    'jest',
     'import',
     'lit',
   ],
@@ -32,7 +32,10 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      './urlResolver.js': {},
+      [resolve(__dirname, './tools/urlResolver.js')]: {},
+    },
+    react: {
+      version: '17.0.2',
     },
   },
 };

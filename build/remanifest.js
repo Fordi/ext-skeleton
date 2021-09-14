@@ -2,13 +2,8 @@
 const { promises: { readdir, readFile, writeFile } } = require('fs');
 const { join, resolve } = require('path');
 const chokidar = require('chokidar');
-const pkg = require('../package.json');
 
 const root = resolve(__dirname, '..');
-
-if (pkg.name === 'chrome-ext-skeleton' || pkg.version === '0.0.0') {
-  console.warn('Please update the project name and version in package.json');
-}
 
 const lsr = async (path) => {
   const files = [];
@@ -26,24 +21,31 @@ const lsr = async (path) => {
   return files;
 };
 
-const getJson = async (file, defaultValue) => {
-  try {
-    const json = await readFile(file, { encoding: 'utf-8' });
-    return JSON.parse(json);
-  } catch (_) { /* skip */ }
-  return defaultValue;
-};
-
 const remanifest = async () => {
   const manifestFile = join(root, 'manifest.json');
+  const packageFile = join(root, 'package.json');
+
+  const pkg = JSON.parse(await readFile(packageFile, { encoding: 'utf-8' }));
+  if (pkg.name === 'chrome-ext-skeleton' || pkg.version === '0.0.0') {
+    console.warn('Please update the project name and version in package.json');
+  }
+
+  const {
+    web_accessible_resources: baseRes = [],
+    ...baseManifest
+  } = pkg.chromiumManifest;
+
   const manifest = {
-    ...(await getJson(manifestFile, {})),
-    ...pkg.chromiumManifest,
     version: pkg.version,
-    web_accessible_resources: await lsr('./src'),
+    ...baseManifest,
+    web_accessible_resources: Array.from(new Set([
+      ...baseRes,
+      ...await lsr('./src'),
+    ])),
   };
+
   console.log(`Web-accessible:\n\t${manifest.web_accessible_resources.join('\n\t')}`);
-  writeFile('./manifest.json', `${JSON.stringify(manifest, null, 2)}\n`);
+  writeFile(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`);
   console.log('Updated manifest.json');
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-name",
-  "chrome-manifest": {
+  "chromiumManifest": {
     "manifest_version": 2,
     "browser_action": {},
     "name": "Extension name",
@@ -14,6 +14,8 @@
           "extension.js"
         ]
       }
+    ],
+    "web_accessible_resources": [
     ]
   },
   "version": "0.0.0",

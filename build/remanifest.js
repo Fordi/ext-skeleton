@@ -33,7 +33,7 @@ const remanifest = async () => {
   const {
     web_accessible_resources: baseRes = [],
     ...baseManifest
-  } = pkg.chromiumManifest;
+  } = pkg.manifest;
 
   const manifest = {
     version: pkg.version,

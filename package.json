@@ -1,6 +1,6 @@
 {
-  "name": "chrome-extension-name",
-  "chromiumManifest": {
+  "name": "extension-name",
+  "manifest": {
     "manifest_version": 2,
     "browser_action": {},
     "name": "Extension name",
@@ -20,7 +20,7 @@
   },
   "version": "0.0.0",
   "scripts": {
-    "build": "node ./build/remanifest.js",
+    "postinstall": "node ./build/remanifest.js",
     "lint": "eslint src/**/*.js",
     "watch": "node ./build/remanifest.js --watch"
   },
